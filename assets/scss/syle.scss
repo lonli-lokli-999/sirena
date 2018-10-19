@@ -37,7 +37,8 @@ body {
 background: url(../img/main_bg.png) no-repeat;
 background-size: cover;
 display: flex;
-flex-direction: column }
+justify-content: space-between;
+max-height: 100vh }
 
 
     .scroll-show {
@@ -51,12 +52,16 @@ flex-direction: column }
             width:100%;
             transition: $time-hover }
 
-button {
+button, input {
 background: none;
 color: $def_color;
 transition: $time_hover }
-button:hover {
+button:hover, input:hover {
 background: $prm_bg }
+input {
+display: block;
+padding: 1rem;
+width: 100% }
 
 .icon {
 font-family: 'Metrize-Icons';
@@ -74,7 +79,7 @@ line-height: 1rem;
 background: $def_bg;
 color: $def_color;
 border: 0.1rem  $opt_bg;
-z-index: 2;
+width: 30rem;
 	.status-bar {
 	background: $def_bg;	
 		span {
@@ -93,7 +98,7 @@ z-index: 2;
 			width: 100%;
 			background: $opt_bg;
 			transition: $time_hover;
-                        z-index: 3;
+            z-index: 3;
 				span {
 				display: block; 
 				background: $prm_bg;
@@ -111,13 +116,9 @@ z-index: 2;
 
 .playlist {
 background: $def_bg;
-position: fixed;
-top: auto;
-height: 100%;
-width: .5rem;
-opacity: 0;
-z-index: 1;
 transition: $time_hover;
+height: 100%;
+width: 100%;
     button {
     width: 100%;
     padding: 1rem;
@@ -127,11 +128,6 @@ transition: $time_hover;
 	background: $prm_bg;	
 	}
 }
-.playlist:hover {
-z-index: 3;
-opacity: 1;
-width: 90% }
-
 
 .vis-wrapp {
 background: $prm_bg;
@@ -148,42 +144,7 @@ display: flex;
 }
 
 @keyframes loading {
-0% {height:  100%}
-50% {height:  0}
-100% {height:  100%}
+    0% {height:  100%}
+    50% {height:  0}
+    100% {height:  100%}
 }
-
-@media screen and ( max-width: 700px  ) {
-	.colon-wrap {
-	overflow-y: auto 
-	}
-}
-
-/* scroll
-
-.b-scroll {
-height: 10rem;
-display: flex }
-	.colon-wrap {
-	overflow-y: hidden;
-	position: relative;
-	height: 100%;
-	width: 100%  }
-		.colon {
-		position: absolute;
-		top: 0rem;
-		transition: $time_scroll }
-
-	.scroll-bar {
-	position: relative;
-	background: $opt_bg;
-	width: .6rem;
-	height: 100%;
-	z-index: 1 }
-		.scroller {
-		position: absolute;
-		top: 1rem;
-		background:	$def_bg;
-		padding: .3rem }
-
-*/

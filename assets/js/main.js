@@ -19,35 +19,27 @@ var
         
             function scroll( el ) {
                 el.addEventListener( 'wheel', function(ev) {
-                                ev.preventDefault();
+                ev.preventDefault();
                 sy = this.querySelector( '.scroll-all' ).style.top ? - parseInt( this.querySelector( '.scroll-all' ) .style.top ) : 0;
-                console.log( sy )
-                                delt = ev.deltaY || ev.detail || ev.wheelDelta;
-                                sy += delt * 10;
-                hs = parseInt( getComputedStyle( this.querySelector( '.scroll-show' ) ).height ) ;
+                delt = ev.deltaY || ev.detail || ev.wheelDelta;
+                sy += delt * 5;
+                hs = parseInt( getComputedStyle( this ).height ) ;
                 ha = parseInt( getComputedStyle( this.querySelector( '.scroll-all' ) ).height ) ;
-                                if( sy < 0 ) sy = 0 ;
-                                if( sy > ha - hs  )  sy = ha - hs;
-                                if( ha > hs )this.querySelector( '.scroll-all' ).style.top = - sy + 'px';
-                        } )
-        };
+                    if( sy < 0 ) sy = 0 ;
+                    if( sy > ha - hs  )  sy = ha - hs;
+                    if( ha > hs )this.querySelector( '.scroll-all' ).style.top = - sy + 'px';
+                } )
+            };
         
-        /*====================================
+    /*====================================
 	functions end
 	====================================*/
   
 	/*====================================
-	init player 
+	init player
 	====================================*/
 
 	(function(u){
-
-			dir = '../../music/';
-			fs.readdir( dir, function(err, items) {
-    			items.forEach( function( el ) {
-    				to_playlist( 'file:///' + path.resolve( dir + el ) )
-    			} )
-			});	
 
 			d.querySelector( '#mutted' ) 
 				.addEventListener( 'dblclick', function() {
@@ -84,10 +76,32 @@ var
 				audio.aud.volume = v / 100;
 			} );
                                 
-                        d.querySelectorAll( '.b-scroll-wrap' ).forEach( function (el) {
-                            scroll( el )
-                        } )
-
+            d.querySelectorAll( '.scroll-show' ).forEach( function (el) {
+                scroll( el )
+            } );
+            
+            d.querySelector( '#dir' ).addEventListener( 'change', function(ev){
+                ev.preventDefault();
+                if( this.value == '' ) return false;
+                    dir = path.relative('./', this.value );
+                    fs.readdir( dir, function(err, items) {
+                    items.forEach( function( el ) {
+                        if( el.lastIndexOf( '.mp3' ) ) {
+                            furl = 'file:///' + path.resolve( dir + '/' + el );
+                            audio.list[ audio.list.length ] = furl;
+                            to_playlist( furl );
+                        };
+                    } )
+                } )
+            });
+            
+            d.querySelector( '#find' ).addEventListener( 'change', function(ev){
+                ff = [];
+                audio.list.forEach( function(el){
+                    if( el.indexOf( this.value ) ) ff[ ff.length ] = el;
+                } )
+                console.log( ff )
+            });
 
 	}( u ));
 
@@ -109,6 +123,7 @@ var
 
 		var audio = {
 		aud: new Audio(),
+		list: [],
 		mutted: function( but, url ) {
 			if( !url || url == this.track ) this.aud.paused == true ? this.play() : this.pause();
 			if( this.track != url && url ) {

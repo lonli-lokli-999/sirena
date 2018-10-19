@@ -4,10 +4,12 @@
   	"description": "First application",
   	"main": "index.html",
         "author": "reader",
-        "icon" : "assets/img/icon.pnp",
   	"window": {
             "toolbar": false,
-            "width": 500,
-            "height": 200
+            "icon" : "assets/img/icon.png",
+            "width": 1000,
+            "height": 500,
+            "min_height": 500,
+            "min_width": 600
  	 }
 }
