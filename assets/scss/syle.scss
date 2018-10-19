@@ -39,18 +39,17 @@ background-size: cover;
 display: flex;
 flex-direction: column }
 
-.b-scroll-wrap {
-width: 100%;
-height: 100%}
-	.scroll-show {
-	overflow: hidden;
-	position: relative;
-	height: 100%  }
-		.scroll-all {
-		position: absolute;
-		top: 0rem;
-		width:100%;
-		transition: $time-hover }
+
+    .scroll-show {
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    width: 100% }
+            .scroll-all {
+            position: absolute;
+            top: 0rem;
+            width:100%;
+            transition: $time-hover }
 
 button {
 background: none;

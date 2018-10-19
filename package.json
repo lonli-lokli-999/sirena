@@ -1,0 +1,13 @@
+{
+  	"name": "Sirena",
+  	"version": "1.0.0",
+  	"description": "First application",
+  	"main": "index.html",
+        "author": "reader",
+        "icon" : "assets/img/icon.pnp",
+  	"window": {
+            "toolbar": false,
+            "width": 500,
+            "height": 200
+ 	 }
+}
