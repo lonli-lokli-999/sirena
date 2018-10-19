@@ -1,0 +1,190 @@
+$def_bg: rgba( 100, 100, 100, .8 );
+    $def_color: #ddd;
+$opt_bg: rgba( 150, 150, 150, .8 );
+$prm_bg: rgba( 250, 150, 150, .5 );
+
+$time_hover: 500ms;
+$time_scroll: 300ms;
+
+* {
+margin: 0;
+padding: 0;
+border-radius: 0;
+border: none;
+outline: none;
+text-decoration: none;
+list-style: none;
+background: none;
+box-sizing: border-box;
+font-size: 16px }
+
+@font-face {
+	font-family: 'Metrize-Icons';
+	src:url('../fonts/Metrize-Icons.eot');
+	src:url('../fonts/Metrize-Icons.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/Metrize-Icons.woff') format('woff'),
+		url('../fonts/Metrize-Icons.ttf') format('truetype'),
+		url('../fonts/Metrize-Icons.svg#Metrize-Icons') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+html, body {
+height: 100vh;
+max-height: 100vh }
+
+body {
+background: url(../img/main_bg.png) no-repeat;
+background-size: cover;
+display: flex;
+flex-direction: column }
+
+.b-scroll-wrap {
+width: 100%;
+height: 100%}
+	.scroll-show {
+	overflow: hidden;
+	position: relative;
+	height: 100%  }
+		.scroll-all {
+		position: absolute;
+		top: 0rem;
+		width:100%;
+		transition: $time-hover }
+
+button {
+background: none;
+color: $def_color;
+transition: $time_hover }
+button:hover {
+background: $prm_bg }
+
+.icon {
+font-family: 'Metrize-Icons';
+padding: 0 .3rem;
+font-size: 1.3rem;
+speak: none;
+font-weight: normal;
+font-variant: normal;
+text-transform: none;
+line-height: 1rem;
+-webkit-font-smoothing: antialiased }
+
+
+.player {
+background: $def_bg;
+color: $def_color;
+border: 0.1rem  $opt_bg;
+z-index: 2;
+	.status-bar {
+	background: $def_bg;	
+		span {
+		display: block;
+		width: 0;
+		padding:  .5rem 0;
+		background: $prm_bg }
+	}
+	.options li {
+	display: inline-block }
+		.volume-wrap {
+		position: relative;
+			.volume-bar {
+			position: absolute;
+			top: 100%;
+			width: 100%;
+			background: $opt_bg;
+			transition: $time_hover;
+                        z-index: 3;
+				span {
+				display: block; 
+				background: $prm_bg;
+				transition: $time_hover;
+                                height: 100%
+                                }
+			}
+		}
+		.volume-wrap:hover	.volume-bar {
+		height: 10rem }	
+	button {
+	padding: 1rem;
+	width: 100% }
+}
+
+.playlist {
+background: $def_bg;
+position: fixed;
+top: auto;
+height: 100%;
+width: .5rem;
+opacity: 0;
+z-index: 1;
+transition: $time_hover;
+    button {
+    width: 100%;
+    padding: 1rem;
+    overflow-wrap: break-word;
+    text-align: left }
+    .active {
+	background: $prm_bg;	
+	}
+}
+.playlist:hover {
+z-index: 3;
+opacity: 1;
+width: 90% }
+
+
+.vis-wrapp {
+background: $prm_bg;
+height: 0;
+transition: $time_hover;
+display: flex;
+	@for $i from 0 through 14 {
+		#vis#{$i} {
+		background: $def_bg;
+		width: 7.14285714%;
+		animation: loading  random(1000) + ms infinite
+		}
+	}
+}
+
+@keyframes loading {
+0% {height:  100%}
+50% {height:  0}
+100% {height:  100%}
+}
+
+@media screen and ( max-width: 700px  ) {
+	.colon-wrap {
+	overflow-y: auto 
+	}
+}
+
+/* scroll
+
+.b-scroll {
+height: 10rem;
+display: flex }
+	.colon-wrap {
+	overflow-y: hidden;
+	position: relative;
+	height: 100%;
+	width: 100%  }
+		.colon {
+		position: absolute;
+		top: 0rem;
+		transition: $time_scroll }
+
+	.scroll-bar {
+	position: relative;
+	background: $opt_bg;
+	width: .6rem;
+	height: 100%;
+	z-index: 1 }
+		.scroller {
+		position: absolute;
+		top: 1rem;
+		background:	$def_bg;
+		padding: .3rem }
+
+*/
