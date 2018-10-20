@@ -16,6 +16,41 @@ var
     /*====================================
 	functions end
 	====================================*/
+
+			function _(){
+			    var el = document.createElement( arguments[0] );
+			    if( arguments[1] ){
+			      if( typeof arguments[1] == 'string' || arguments[1].styles ){
+			        cls = typeof arguments[1] == 'string' ? arguments[1] : arguments[1].styles ;
+			        cls = cls.split( ' ' );
+
+			        cls.forEach(function( cls ){
+			          el.classList.add( cls )
+			        });
+			      }
+			      if( arguments[1].text || arguments[2] ){
+			        el.innerHTML = typeof arguments[1] == 'object' ? arguments[1].text :  arguments[2];
+			      }
+			      if( arguments[1].attr || arguments[3] ){
+			        attr = typeof arguments[1] == 'object' ? arguments[1].attr : arguments[3];
+			        keys = Object.keys( attr );
+			        keys.forEach(function(key){
+			          el.setAttribute( key, attr[key] );
+			        });
+			      }
+			    }
+			    el.append = function( elm ){
+			      this.appendChild( elm );
+			      return this };
+			    el.appendTo = function( par ){
+			      par = typeof par == 'string' ? document.querySelector( par ) : par ;
+			      par.appendChild( this );
+			      return par };
+			    el.event = function( ev, fun ){
+			      this.addEventListener( ev, fun );
+			      return this };
+			    return el
+			};
         
             function scroll( el ) {
                 el.addEventListener( 'wheel', function(ev) {
@@ -30,96 +65,21 @@ var
                     if( ha > hs )this.querySelector( '.scroll-all' ).style.top = - sy + 'px';
                 } )
             };
+
+            function to_playlist( track ){
+				_( 'li' )
+					.append( 
+							_( 'button', { attr: { data: track }, text: track.slice( +track.lastIndexOf('/')+1, track.length ) } )
+						.event( 'click', function(){
+							audio.mutted( this, this.getAttribute( 'data' ) )
+						})	 
+					)
+				.appendTo( d .querySelector( '.playlist' ) .querySelector( 'ul' ) );
+			};
         
     /*====================================
 	functions end
 	====================================*/
-  
-	/*====================================
-	init player
-	====================================*/
-
-	(function(u){
-
-			d.querySelector( '#mutted' ) 
-				.addEventListener( 'dblclick', function() {
-				audio.mutted()
-			} );
-
-			d.querySelector( '#next' )
-				.addEventListener( 'dblclick', function() {
-					audio.next()
-			} );
-
-			d.querySelector( '#previous' )
-				.addEventListener( 'dblclick', function() {
-					audio.previous()
-			} );
-
-			d.querySelector( '#vis' )
-				.addEventListener( 'dblclick', function() {
-					vis = document.querySelector( '.vis-wrapp' );
-					vis.style.height = vis.style.height != '10rem' ?  '10rem' : 0;
-			} );
-
-			d.querySelector( '#volume' )
-				.addEventListener( 'dblclick', function() {
-					audio.aud.volume = audio.aud.volume != 0 ?  0 : 1;
-			} );
-
-			d.querySelector( '.volume-bar' )
-				.addEventListener( 'click', function(ev) {
-				y = ev.layerY,
-				h = parseInt( getComputedStyle( this ).height ),
-				v = (y / h) * 100;
-				this.querySelector( 'span' ).style.height = v + '%';
-				audio.aud.volume = v / 100;
-			} );
-                                
-            d.querySelectorAll( '.scroll-show' ).forEach( function (el) {
-                scroll( el )
-            } );
-            
-            d.querySelector( '#dir' ).addEventListener( 'change', function(ev){
-                ev.preventDefault();
-                if( this.value == '' ) return false;
-                    dir = path.relative('./', this.value );
-                    fs.readdir( dir, function(err, items) {
-                    items.forEach( function( el ) {
-                        if( el.lastIndexOf( '.mp3' ) ) {
-                            furl = 'file:///' + path.resolve( dir + '/' + el );
-                            audio.list[ audio.list.length ] = furl;
-                            to_playlist( furl );
-                        };
-                    } )
-                } )
-            });
-            
-            d.querySelector( '#find' ).addEventListener( 'change', function(ev){
-                ff = [];
-                audio.list.forEach( function(el){
-                    if( el.indexOf( this.value ) ) ff[ ff.length ] = el;
-                } )
-                console.log( ff )
-            });
-
-	}( u ));
-
-	function to_playlist( track ){
-		_( 'li' )
-			.append( 
-					_( 'button', { attr: { data: track }, text: track.slice( +track.lastIndexOf('/')+1, track.length ) } )
-				.event( 'click', function(){
-					audio.mutted( this, this.getAttribute( 'data' ) )
-				})	 
-			)
-		.appendTo( d .querySelector( '.playlist' ) .querySelector( 'ul' ) );
-	};
-
-	/*====================================
-	init player  end 
-	====================================*/
-
 
 		var audio = {
 		aud: new Audio(),
@@ -166,57 +126,109 @@ var
 		}
 	};
 
-	d.querySelector( '.status-bar' ).addEventListener( 'click', function( ev ) {
-	x = ev.layerX,
-	w = parseInt( getComputedStyle( this ).width );
-	audio.control( (x / w) * 100 )
-	});
-	audio.aud.addEventListener( 'timeupdate', function(){
-	audio.watch()
-	} );
 
+	/*====================================
+	event
+	====================================*/
 
-function _(){
+	(function(u){
 
-    var el = document.createElement( arguments[0] );
+			d.querySelector( '#mutted' ) 
+				.addEventListener( 'dblclick', function() {
+				audio.mutted()
+			} );
 
-    if( arguments[1] ){
-      if( typeof arguments[1] == 'string' || arguments[1].styles ){
-        cls = typeof arguments[1] == 'string' ? arguments[1] : arguments[1].styles ;
-        cls = cls.split( ' ' );
+			d.querySelector( '#next' )
+				.addEventListener( 'dblclick', function() {
+					audio.next()
+			} );
 
-        cls.forEach(function( cls ){
-          el.classList.add( cls )
-        });
-      }
+			d.querySelector( '#previous' )
+				.addEventListener( 'dblclick', function() {
+					audio.previous()
+			} );
 
-      if( arguments[1].text || arguments[2] ){
-        el.innerHTML = typeof arguments[1] == 'object' ? arguments[1].text :  arguments[2];
-      }
+			d.querySelector( '#vis' )
+				.addEventListener( 'dblclick', function() {
+					vis = document.querySelector( '.vis-wrapp' );
+					vis.style.height = vis.style.height != '10rem' ?  '10rem' : 0;
+			} );
 
-      if( arguments[1].attr || arguments[3] ){
-        attr = typeof arguments[1] == 'object' ? arguments[1].attr : arguments[3];
-        keys = Object.keys( attr );
-        keys.forEach(function(key){
-          el.setAttribute( key, attr[key] );
-        });
-      }
-    }
+			d.querySelector( '#volume' )
+				.addEventListener( 'dblclick', function() {
+					audio.aud.volume = audio.aud.volume != 0 ?  0 : 1;
+			} );
 
-    el.append = function( elm ){
-      this.appendChild( elm );
-      return this;
-    };
+			d.querySelector( '.volume-bar' )
+				.addEventListener( 'click', function(ev) {
+				y = ev.layerY,
+				h = parseInt( getComputedStyle( this ).height ),
+				v = 100 - ((y / h) * 100);
+				this.querySelector( 'span' ).style.height = v + '%';
+				audio.aud.volume = v / 100;
+			} );
+                                
+            d.querySelectorAll( '.scroll-show' ).forEach( function (el) {
+                scroll( el )
+            } );
+            
+            d.querySelector( '#dir' ).addEventListener( 'change', function(ev){
+                ev.preventDefault();
+                if( this.value == '' ) return false;
+                    dir = path.relative('./', this.value );
+                    fs.readdir( dir, function(err, items) {
+                    items.forEach( function( el ) {
+                        if( el.lastIndexOf( '.mp3' ) ) {
+                            furl = 'file:///' + path.resolve( dir + '/' + el );
+                            audio.list[ audio.list.length ] = furl;
+                            to_playlist( furl );
+                        };
+                    } )
+                } )
+            });
+            
+            d.querySelector( '#find' ).addEventListener( 'change', function(ev){
+                ff = [];
+                audio.list.forEach( function(el){
+                    if( el.indexOf( this.value ) ) ff[ ff.length ] = el;
+                } )
+                console.log( ff )
+            });
 
-    el.appendTo = function( par ){
-      par = typeof par == 'string' ? document.querySelector( par ) : par ;
-      par.appendChild( this );
-      return par
-    };
+            d.querySelector( '.status-bar' ).addEventListener( 'click', function( ev ) {
+				x = ev.layerX,
+				w = parseInt( getComputedStyle( this ).width );
+				audio.control( (x / w) * 100 )
+			});
 
-    el.event = function( ev, fun ){
-      this.addEventListener( ev, fun );
-      return this
-    };
-    return el
-  };
+			d.querySelector( '.music-folder' )
+				.querySelector( 'ul' )
+					.querySelectorAll( 'button' )
+						.forEach( function( el ) {
+							el.addEventListener( 'click', function() {
+								dir = path.relative('./', this.getAttribute( 'data' ) );
+								fs.readdir( dir, function(err, items) {
+                    				items.forEach( function( el ) {
+				                        if( el.lastIndexOf( '.mp3' ) ) {
+				                            furl = 'file:///' + path.resolve( dir + '/' + el );
+				                            audio.list[ audio.list.length ] = furl;
+				                            to_playlist( furl );
+				                        };
+                    				} )
+                				} )	
+							} )
+						} );
+			
+			audio.aud.addEventListener( 'timeupdate', function(){
+				audio.watch()
+			} );
+
+			audio.aud.addEventListener( 'ended', function(){
+				audio.next()
+			} );
+
+	}( u ));
+
+	/*====================================
+	event  end 
+	====================================*/

@@ -93,8 +93,10 @@ width: 30rem;
 		.volume-wrap {
 		position: relative;
 			.volume-bar {
+			display: flex;
 			position: absolute;
 			top: 100%;
+			height: 0;
 			width: 100%;
 			background: $opt_bg;
 			transition: $time_hover;
@@ -103,8 +105,10 @@ width: 30rem;
 				display: block; 
 				background: $prm_bg;
 				transition: $time_hover;
-                                height: 100%
-                                }
+				width: 100%;
+                height: 100%;
+                margin: auto 0 0
+                }
 			}
 		}
 		.volume-wrap:hover	.volume-bar {
@@ -112,6 +116,32 @@ width: 30rem;
 	button {
 	padding: 1rem;
 	width: 100% }
+}
+
+.extra-options {
+	button {
+	text-align: left }
+
+	.music-list li,
+	.music-folder li,
+	.settings-list li {
+	position: relative }
+	.music-list li:hover ul,
+	.music-folder li:hover ul,
+	.settings-list li:hover ul {
+	height: 10rem }
+	.music-list li ul,
+	.music-folder li ul,
+	.settings-list li ul  {
+	background: $opt_bg;
+	transition: $time_hover;
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin-right: -100%;
+	width: 100%;
+	height: 0;
+	z-index: 3 }
 }
 
 .playlist {
