@@ -126,6 +126,58 @@ var
 		}
 	};
 
+    /*====================================
+	music
+	====================================*/
+    
+    var music = {
+        opendir: function( arg ) {
+            dir = path.relative('./', arg );
+            fs.readdir( dir, function(err, items) {
+                items.forEach( function( el ) {
+                    if( el.lastIndexOf( '.mp3' ) ) {
+                        furl = 'file:///' + path.resolve( dir + '/' + el );
+                        audio.list[ audio.list.length ] = furl;
+                        to_playlist( furl );
+                    };
+                } )
+            } )  
+        },
+        plc: function(){
+           d.querySelector( '.playlist' )
+            .querySelector( 'ul' )
+                .innerHTML = ''; 
+        }
+    };
+    
+    /*====================================
+	music end
+	====================================*/
+    
+    /*====================================
+	console
+	====================================*/
+    
+    var term = {
+        perf: function(arg) {
+            if( !arg ) return;
+            arg = arg.split( ' ' );
+            this.clear();
+                arg[0] == "open" ? 
+                    ( music.plc(), music.opendir( arg[1] ) ):
+                arg[0] == 'exit' ?
+                    ( alert( 'Exit' ) ) :
+                alert( 'I, ts comand not found: "' + arg[0] + '".' );
+            
+        },
+        clear: function() {
+            d.querySelector( '.comand-line' ).value = '';
+        }
+    };
+    
+    /*====================================
+	console end
+	====================================*/
 
 	/*====================================
 	event
@@ -158,6 +210,10 @@ var
 				.addEventListener( 'dblclick', function() {
 					audio.aud.volume = audio.aud.volume != 0 ?  0 : 1;
 			} );
+                
+            d.querySelector( '.comand-line' ).addEventListener( 'change', function(){
+                term.perf( this.value );
+            } );
 
 			d.querySelector( '.volume-bar' )
 				.addEventListener( 'click', function(ev) {
@@ -171,53 +227,28 @@ var
             d.querySelectorAll( '.scroll-show' ).forEach( function (el) {
                 scroll( el )
             } );
-            
-            d.querySelector( '#dir' ).addEventListener( 'change', function(ev){
-                ev.preventDefault();
-                if( this.value == '' ) return false;
-                    dir = path.relative('./', this.value );
-                    fs.readdir( dir, function(err, items) {
-                    items.forEach( function( el ) {
-                        if( el.lastIndexOf( '.mp3' ) ) {
-                            furl = 'file:///' + path.resolve( dir + '/' + el );
-                            audio.list[ audio.list.length ] = furl;
-                            to_playlist( furl );
-                        };
-                    } )
-                } )
-            });
-            
-            d.querySelector( '#find' ).addEventListener( 'change', function(ev){
-                ff = [];
-                audio.list.forEach( function(el){
-                    if( el.indexOf( this.value ) ) ff[ ff.length ] = el;
-                } )
-                console.log( ff )
-            });
 
             d.querySelector( '.status-bar' ).addEventListener( 'click', function( ev ) {
 				x = ev.layerX,
 				w = parseInt( getComputedStyle( this ).width );
 				audio.control( (x / w) * 100 )
 			});
-
-			d.querySelector( '.music-folder' )
-				.querySelector( 'ul' )
-					.querySelectorAll( 'button' )
-						.forEach( function( el ) {
-							el.addEventListener( 'click', function() {
-								dir = path.relative('./', this.getAttribute( 'data' ) );
-								fs.readdir( dir, function(err, items) {
-                    				items.forEach( function( el ) {
-				                        if( el.lastIndexOf( '.mp3' ) ) {
-				                            furl = 'file:///' + path.resolve( dir + '/' + el );
-				                            audio.list[ audio.list.length ] = furl;
-				                            to_playlist( furl );
-				                        };
-                    				} )
-                				} )	
-							} )
-						} );
+            
+            fs.readFile( 'data/music.json', 'utf-8', function( err ,json ) {
+                if( err ) return ;
+                mus = JSON.parse( json );
+                    if( mus.folders )
+                        mus.folders.split( ',' )
+                            .forEach( function( fol ){
+                                _( 'button', { text: fol, attr: { data: fol } } )
+                                    .event( 'click', function() {
+                                        music.plc(),
+                                        music.opendir( this.getAttribute( 'data' ) )
+                                    } )
+                                .appendTo( document.querySelector( '#music-folder-list' ) )
+                            } )
+                    ;
+            }  );
 			
 			audio.aud.addEventListener( 'timeupdate', function(){
 				audio.watch()
