@@ -1,9 +1,9 @@
 $def_bg: rgba( 100, 100, 100, .8 );
     $def_color: #ddd;
 $opt_bg: rgba( 50, 50, 50, .8 );
-$prm_bg: rgba( 250, 150, 150, .5 );
+$prm_bg: rgba( 200, 150, 150, .5 );
 
-$time_hover: 500ms;
+$time_hover: 300ms;
 $time_scroll: 300ms;
 
 * {
@@ -29,16 +29,16 @@ font-size: 16px }
 	font-style: normal;
 }
 
-html, body {
-height: 100vh;
-max-height: 100vh }
-
 body {
 background: url(../img/main_bg.png) no-repeat;
 background-size: cover;
 display: flex;
 justify-content: space-between;
+height: 100vh;
 max-height: 100vh }
+
+input::-webkit-input-placeholder {
+color: $def_color }
 
 
     .scroll-show {
