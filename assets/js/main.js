@@ -65,17 +65,6 @@ var
                     if( ha > hs )this.querySelector( '.scroll-all' ).style.top = - sy + 'px';
                 } )
             };
-
-            function to_playlist( track ){
-				_( 'li' )
-					.append( 
-							_( 'button', { attr: { data: track }, text: track.slice( +track.lastIndexOf('/')+1, track.length ) } )
-						.event( 'click', function(){
-							audio.mutted( this, this.getAttribute( 'data' ) )
-						})	 
-					)
-				.appendTo( d .querySelector( '.playlist' ) .querySelector( 'ul' ) );
-			};
         
     /*====================================
 	functions end
@@ -83,7 +72,6 @@ var
 
 		var audio = {
 		aud: new Audio(),
-		list: [],
 		mutted: function( but, url ) {
 			if( !url || url == this.track ) this.aud.paused == true ? this.play() : this.pause();
 			if( this.track != url && url ) {
@@ -131,22 +119,34 @@ var
 	====================================*/
     
     var music = {
+        trlist: [],
         opendir: function( arg ) {
             dir = path.relative('./', arg );
             fs.readdir( dir, function(err, items) {
                 items.forEach( function( el ) {
                     if( el.lastIndexOf( '.mp3' ) ) {
                         furl = 'file:///' + path.resolve( dir + '/' + el );
-                        audio.list[ audio.list.length ] = furl;
-                        to_playlist( furl );
+                        music.tpl( furl );
                     };
                 } )
             } )  
         },
         plc: function(){
-           d.querySelector( '.playlist' )
+            this.trlist.length = 0;
+            document.querySelector( '.playlist' )
             .querySelector( 'ul' )
                 .innerHTML = ''; 
+        },
+        tpl: function( track ){
+            music.trlist[ music.trlist.length ] = track.slice( track.lastIndexOf('/')+1 );
+            _( 'li' )
+                .append( 
+                    _( 'button', { attr: { data: track }, text: track.slice( track.lastIndexOf('/')+1 ) } )
+                        .event( 'click', function(){
+			audio.mutted( this, this.getAttribute( 'data' ) )
+			})	 
+			)
+            .appendTo( document .querySelector( '.playlist' ) .querySelector( 'ul' ) );
         }
     };
     
@@ -167,11 +167,17 @@ var
                     ( music.plc(), music.opendir( arg[1] ) ):
                 arg[0] == 'exit' ?
                     ( alert( 'Exit' ) ) :
+                arg[0] == 'pladd' ?
+                    ( this.addpl( arg[1], arg[2] ) ) :
                 alert( 'I, ts comand not found: "' + arg[0] + '".' );
             
         },
         clear: function() {
             d.querySelector( '.comand-line' ).value = '';
+        },
+        addpl: function( pl, tr ){
+            console.log( 'data/pl-' + pl + '.json' )
+            console.log( tr )
         }
     };
     
@@ -245,7 +251,22 @@ var
                                         music.plc(),
                                         music.opendir( this.getAttribute( 'data' ) )
                                     } )
-                                .appendTo( document.querySelector( '#music-folder-list' ) )
+                                .appendTo( document.querySelector( '#js-music-folder-list' ) )
+                            } )
+                    ;
+                    if( mus.playlists )
+                        mus.playlists.split( ',' )
+                            .forEach( function( pl ){
+                                _( 'button', { text: pl, attr: { data: pl } } )
+                                    .event( 'click', function() {
+                                        music.plc(),
+                                        fs.readFile( 'data/pl-' + this.getAttribute( 'data' ) + '.json', 'utf-8', function( err, pl ){
+                                                JSON.parse( pl ).forEach( function( tr ){
+                                                    music.tpl( tr )
+                                                } )
+                                        } )
+                                    } )
+                                .appendTo( document.querySelector( '#js-music-playlist' ) )
                             } )
                     ;
             }  );
