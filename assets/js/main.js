@@ -1,14 +1,14 @@
-;  "use strict";
-var
-  d = document,
-  u = undefined,
-  n = null,
-  f = false,
-  t = true,
-  s = 'string',
-  o = 'object',
-  b = 'boolean';
+	;  "use strict";
 
+	var
+	d = document,
+	u = undefined,
+	n = null,
+	f = false,
+	t = true,
+	s = 'string',
+	o = 'object',
+	b = 'boolean';
   var 
   	fs = require('fs'),
   	path = require('path');
@@ -62,7 +62,7 @@ var
                 ha = parseInt( getComputedStyle( this.querySelector( '.scroll-all' ) ).height ) ;
                     if( sy < 0 ) sy = 0 ;
                     if( sy > ha - hs  )  sy = ha - hs;
-                    if( ha > hs )this.querySelector( '.scroll-all' ).style.top = - sy + 'px';
+                    if( ha > hs )this.querySelector( '.scroll-all' ).style.top = `-${sy}px`;
                 } )
             };
         
@@ -169,6 +169,8 @@ var
                     ( alert( 'Exit' ) ) :
                 arg[0] == 'pladd' ?
                     ( this.addpl( arg[1], arg[2] ) ) :
+				arg[0] == 'diradd' ?
+					( this.diradd( arg[1] ) ) :
                 alert( 'I, ts comand not found: "' + arg[0] + '".' );
             
         },
@@ -178,7 +180,15 @@ var
         addpl: function( pl, tr ){
             console.log( 'data/pl-' + pl + '.json' )
             console.log( tr )
-        }
+        },
+		diradd: function(dir){
+			fs.readFile( 'data/music-folders.json', 'utf-8', function( err ,json ) {
+                if( err ) return f;
+					fs.fileWrite( 'data/music-folders.json', JSON.stringify( JSON.parse( json ).push( dir ) ), function( err ){
+						if(!err) return t;
+					} )
+            }  );
+		}
     };
     
     /*====================================
@@ -240,34 +250,17 @@ var
 				audio.control( (x / w) * 100 )
 			});
             
-            fs.readFile( 'data/music.json', 'utf-8', function( err ,json ) {
-                if( err ) return ;
-                mus = JSON.parse( json );
-                    if( mus.folders )
-                        mus.folders.split( ',' )
-                            .forEach( function( fol ){
-                                _( 'button', { text: fol, attr: { data: fol } } )
-                                    .event( 'click', function() {
-                                        music.plc(),
-                                        music.opendir( this.getAttribute( 'data' ) )
-                                    } )
-                                .appendTo( document.querySelector( '#js-music-folder-list' ) )
-                            } )
-                    ;
-                    if( mus.playlists )
-                        mus.playlists.split( ',' )
-                            .forEach( function( pl ){
-                                _( 'button', { text: pl, attr: { data: pl } } )
-                                    .event( 'click', function() {
-                                        music.plc(),
-                                        fs.readFile( 'data/pl-' + this.getAttribute( 'data' ) + '.json', 'utf-8', function( err, pl ){
-                                                JSON.parse( pl ).forEach( function( tr ){
-                                                    music.tpl( tr )
-                                                } )
-                                        } )
-                                    } )
-                                .appendTo( document.querySelector( '#js-music-playlist' ) )
-                            } )
+            fs.readFile( 'data/music-folders.json', 'utf-8', function( err ,json ) {
+                if( err ) console.log( err ) ;
+					JSON.parse( json )
+						.forEach( function( fol ){
+							_( 'button', { text: fol, attr: { data: fol } } )
+								.event( 'click', function() {
+									music.plc(),
+									music.opendir( this.getAttribute( 'data' ) )
+								} )
+							.appendTo( document.querySelector( '#js-music-folders' ) )
+						} )
                     ;
             }  );
 			
