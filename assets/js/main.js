@@ -171,7 +171,7 @@
                     ( this.addpl( arg[1], arg[2] ) ) :
 				arg[0] == 'diradd' ?
 					( this.diradd( arg[1] ) ) :
-                alert( 'I, ts comand not found: "' + arg[0] + '".' );
+                alert( `Команда: '${arg[0]}' не сушествует или введена с ошибкой.` );
             
         },
         clear: function() {
@@ -184,9 +184,11 @@
 		diradd: function(dir){
 			fs.readFile( 'data/music-folders.json', 'utf-8', function( err ,json ) {
                 if( err ) return f;
-					fs.fileWrite( 'data/music-folders.json', JSON.stringify( JSON.parse( json ).push( dir ) ), function( err ){
-						if(!err) return t;
-					} )
+					var folders = JSON.parse( json );
+					folders.push( dir );
+					fs.writeFile( 'data/music-folders.json', JSON.stringify( folders ), function(err){
+						if(!err) alert( '' )
+					} );
             }  );
 		}
     };
