@@ -124,13 +124,51 @@
             dir = path.relative('./', arg );
             fs.readdir( dir, function(err, items) {
                 items.forEach( function( el ) {
-                    if( el.lastIndexOf( '.mp3' ) ) {
+                    if( el.lastIndexOf( '.mp3' ) != -1 ) {
                         furl = 'file:///' + path.resolve( dir + '/' + el );
                         music.tpl( furl );
                     };
                 } )
             } )  
         },
+		loadpl: function(){
+			fs.readdir( 'data', function( err, fl ){
+				if( err ) return f;
+				console.log( fl )
+				fl.forEach(function(el){
+					if( el.lastIndexOf( 'pl-' ) != -1 ){
+						var name = el.slice( 3, el.length - 5 );
+						_( 'button', { text: name, attr: { data: el } } )
+								.event( 'click', function() {
+									music.plc(),
+									fs.readFile( `data/${this.getAttribute( 'data' )}`, function(err, json){
+										if( err ) return f;
+										JSON.parse( json )
+											.forEach( function( el ){
+												music.tpl( el )
+											} )
+									} )
+								} )
+						.appendTo( document.querySelector( '#js-music-playlist' ) )
+					}
+				})
+			} );
+		},
+		loaddir: function(){
+			document.querySelector( '#js-music-folders' ).innerHTML = '';
+			fs.readFile( 'data/music-folders.json', 'utf-8', function( err ,json ) {
+					JSON.parse( json )
+						.forEach( function( fol ){
+							_( 'button', { text: fol, attr: { data: fol } } )
+								.event( 'click', function() {
+									music.plc(),
+									music.opendir( this.getAttribute( 'data' ) )
+								} )
+							.appendTo( document.querySelector( '#js-music-folders' ) )
+						} )
+                    ;
+            }  )
+		},
         plc: function(){
             this.trlist.length = 0;
             document.querySelector( '.playlist' )
@@ -157,7 +195,6 @@
     /*====================================
 	console
 	====================================*/
-    
     var term = {
         perf: function(arg) {
             if( !arg ) return;
@@ -177,9 +214,14 @@
         clear: function() {
             d.querySelector( '.comand-line' ).value = '';
         },
-        addpl: function( pl, tr ){
-            console.log( 'data/pl-' + pl + '.json' )
-            console.log( tr )
+        addpl: function( pl, tr ) {
+			fs.readFile(`data/pl-${pl}.json`, function(err, tracks){
+				tracks = err ? [] : JSON.parse( tracks );
+				tr.split( ',' ).forEach(function(el){
+					tracks.push(el)
+				});
+				fs.writeFile( `data/pl-${pl}.json`, JSON.stringify( tracks ), function(err){} );
+			})
         },
 		diradd: function(dir){
 			fs.readFile( 'data/music-folders.json', 'utf-8', function( err ,json ) {
@@ -187,7 +229,7 @@
 					var folders = JSON.parse( json );
 					folders.push( dir );
 					fs.writeFile( 'data/music-folders.json', JSON.stringify( folders ), function(err){
-						if(!err) alert( '' )
+						if(!err) music.loaddir();
 					} );
             }  );
 		}
@@ -251,20 +293,6 @@
 				w = parseInt( getComputedStyle( this ).width );
 				audio.control( (x / w) * 100 )
 			});
-            
-            fs.readFile( 'data/music-folders.json', 'utf-8', function( err ,json ) {
-                if( err ) console.log( err ) ;
-					JSON.parse( json )
-						.forEach( function( fol ){
-							_( 'button', { text: fol, attr: { data: fol } } )
-								.event( 'click', function() {
-									music.plc(),
-									music.opendir( this.getAttribute( 'data' ) )
-								} )
-							.appendTo( document.querySelector( '#js-music-folders' ) )
-						} )
-                    ;
-            }  );
 			
 			audio.aud.addEventListener( 'timeupdate', function(){
 				audio.watch()
@@ -273,6 +301,9 @@
 			audio.aud.addEventListener( 'ended', function(){
 				audio.next()
 			} );
+			
+			music.loaddir();
+			music.loadpl();
 
 	}( u ));
 
