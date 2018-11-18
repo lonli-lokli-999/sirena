@@ -176,7 +176,7 @@
                 .innerHTML = ''; 
         },
         tpl: function( track ){
-            music.trlist[ music.trlist.length ] = track.slice( track.lastIndexOf('/')+1 );
+            music.trlist.push = track.slice( track.lastIndexOf('/')+1 );
             _( 'li' )
                 .append( 
                     _( 'button', { attr: { data: track }, text: track.slice( track.lastIndexOf('/')+1 ) } )
