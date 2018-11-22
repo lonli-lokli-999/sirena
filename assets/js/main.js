@@ -134,7 +134,6 @@
 		loadpl: function(){
 			fs.readdir( 'data', function( err, fl ){
 				if( err ) return f;
-				console.log( fl )
 				fl.forEach(function(el){
 					if( el.lastIndexOf( 'pl-' ) != -1 ){
 						var name = el.slice( 3, el.length - 5 );
@@ -176,7 +175,7 @@
                 .innerHTML = ''; 
         },
         tpl: function( track ){
-            music.trlist.push = track.slice( track.lastIndexOf('/')+1 );
+            music.trlist.push( track );
             _( 'li' )
                 .append( 
                     _( 'button', { attr: { data: track }, text: track.slice( track.lastIndexOf('/')+1 ) } )
@@ -208,7 +207,9 @@
                     ( this.addpl( arg[1], arg[2] ) ) :
 				arg[0] == 'diradd' ?
 					( this.diradd( arg[1] ) ) :
-                alert( `Команда: '${arg[0]}' не сушествует или введена с ошибкой.` );
+				arg[0] == 'find' ?
+					( this.find( arg[1] ) ):
+                false;
             
         },
         clear: function() {
@@ -225,13 +226,21 @@
         },
 		diradd: function(dir){
 			fs.readFile( 'data/music-folders.json', 'utf-8', function( err ,json ) {
-                if( err ) return f;
+                if( err ) return ;
 					var folders = JSON.parse( json );
 					folders.push( dir );
 					fs.writeFile( 'data/music-folders.json', JSON.stringify( folders ), function(err){
 						if(!err) music.loaddir();
 					} );
             }  );
+		},
+		find: function( str ){
+			if( !music.trlist ) return ;
+				res = music.trlist.filter( function( value ){ return value.slice( value.lastIndexOf('/')+1 ).indexOf( str ) != -1 ? true : false } );
+				music.plc()
+				res.forEach( function( el ){
+					music.tpl( el )
+				} )
 		}
     };
     
