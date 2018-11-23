@@ -237,7 +237,9 @@
 	    d.querySelector('.comand-line').value = '';
 	  },
 	  addpl: function(pl, tr) {
-	    tr = tr != 'music' ? tr.split(',') : music.trlist;
+	    tr == 'music' ? tr = music.trlist :
+	    tr == 'track' ? tr = [audio.track] :
+	    tr = tr.split(',');
 	    fs.readFile(`data/pl-${pl}.json`, function(err, tracks) {
 	      tracks = err ? [] : JSON.parse(tracks);
 	      tr.forEach(function(el) {

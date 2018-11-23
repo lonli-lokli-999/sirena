@@ -1,10 +1,4 @@
-$def_bg: rgba( 100, 100, 100, .8 );
-    $def_color: #ddd;
-$opt_bg: rgba( 50, 50, 50, .8 );
-$prm_bg: rgba( 200, 150, 150, .5 );
-
-$time_hover: 300ms;
-$time_scroll: 300ms;
+@import 'var-conf.scss';
 
 * {
 margin: 0;
@@ -98,15 +92,15 @@ width: 30rem;
 			width: 100%;
 			background: $opt_bg;
 			transition: $time_hover;
-            z-index: 3;
+			z-index: 3;
 				span {
 				display: block; 
 				background: $prm_bg;
 				transition: $time_hover;
 				width: 100%;
-                height: 100%;
-                margin: auto 0 0
-                }
+				height: 100%;
+				margin: auto 0 0
+				}
 			}
 		}
 		.volume-wrap:hover	.volume-bar {
