@@ -97,9 +97,9 @@
 	    this.aud.pause()
 	  },
 	  watch: function() {
-	    d = this.aud.duration,
+	    dur = this.aud.duration,
 	      t = this.aud.currentTime,
-	      status = (t / d) * 100;
+	      status = (t / dur) * 100;
 	    document.querySelector('.status-bar').querySelector('span').style.width = status + '%';
 	  },
 	  control: function(t) {
@@ -311,6 +311,7 @@
 	    });
 
 	  d.querySelector('.comand-line').addEventListener('change', function() {
+		console.log(this)
 	    term.perf(this.value);
 	  });
 
@@ -340,9 +341,8 @@
 	  audio.aud.addEventListener('ended', function() {
 	    audio.next()
 	  });
-	
+
 	  d.body.style.background = `url(assets/img/main_bg${Math.floor(Math.random() * (5 - 0 + 1)) + 0}.png) center center / cover no-repeat`;
-	  
 	  music.loaddir();
 	  music.loadpl();
 
