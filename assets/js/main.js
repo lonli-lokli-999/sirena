@@ -344,7 +344,17 @@
 	    audio.next()
 	  });
 
-	  d.body.style.background = `url(assets/img/main_bg${Math.floor(Math.random() * (5 - 0 + 1)) + 0}.png) center center / cover no-repeat`;
+	  fs.readdir( 'assets/img/bg/', function( err, bgs ){
+		  if( err ) {
+			  d.body.style.background = 'url(assets/img/bg/main_bg0.png)  center center / cover no-repeat';
+		  } else {
+			var
+				max = bgs.length -1,
+				min = 0,
+				i =  Math.round(min - 0.5 + Math.random() * (max - min + 1)) ;
+			d.body.style.background = `url(assets/img/bg/${bgs[i]})  center center / cover no-repeat`;
+		}
+	  } );
 	  music.loaddir();
 	  music.loadpl();
 
