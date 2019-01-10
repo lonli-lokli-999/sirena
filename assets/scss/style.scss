@@ -49,7 +49,7 @@ background: none;
 color: $def_color;
 transition: $time_hover }
 button:hover, input:hover {
-background: $prm_bg }
+background: var( --prm_bg ) }
 input {
 display: block;
 padding: 1rem;
@@ -78,7 +78,7 @@ width: 30rem;
 		display: block;
 		width: 0;
 		padding:  .5rem 0;
-		background: $prm_bg }
+		background: var( --prm_bg ) }
 	}
 	.options li {
 	display: inline-block }
@@ -95,7 +95,7 @@ width: 30rem;
 			z-index: 3;
 				span {
 				display: block; 
-				background: $prm_bg;
+				background: var( --prm_bg );
 				transition: $time_hover;
 				width: 100%;
 				height: 100%;
@@ -113,6 +113,9 @@ width: 30rem;
 .extra-options {
 	button {
 	text-align: left }
+	.icon {
+	padding: 0 .3rem 0 0;
+	}
 
 	.music-list li,
 	.music-folder li,
@@ -138,7 +141,11 @@ width: 30rem;
 
     .inp-wrap {
     margin: auto 0 0;
-    background: $opt_bg }
+    background: $opt_bg;
+    display: flex;
+	    button{
+	    width: auto	}
+}
     
 .playlist {
 background: $def_bg;
@@ -151,12 +158,12 @@ width: 100%;
     overflow-wrap: break-word;
     text-align: left }
     .active {
-	background: $prm_bg;	
+	background: var( --prm_bg );	
 	}
 }
 
 .vis-wrapp {
-background: $prm_bg;
+background: var( --prm_bg );
 height: 0;
 transition: $time_hover;
 display: flex;
