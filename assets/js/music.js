@@ -1,13 +1,15 @@
 var music = {
 	  trlist: [],
 	  opendir: function(arg) {
+		console.log( arg )
 	    dir = path.relative('./', arg);
+		console.log( dir )
 	    fs.readdir(dir, function(err, items) {
-	      items.forEach(function(el) {
-	        if (el.lastIndexOf('.mp3') != -1) {
+	      var musics = items.filter( (el) => ( el.lastIndexOf( '.mp3' ) != -1 ? true : false) );
+
+			musics.forEach(function(el) {
 	          furl = 'file:///' + path.resolve(dir + '/' + el);
 	          music.tpl(furl);
-	        };
 	      })
 	    })
 	  },
@@ -18,13 +20,10 @@ var music = {
 	      fl.forEach(function(el) {
 	        if (el.lastIndexOf('pl-') != -1) {
 	          var name = el.slice(3, el.length - 5);
-	          _('button', {
-	              text: name,
-	              attr: {
-	                data: el
-	              }
-	            })
-	            .event('click', function() {
+	          var btn = document.createElement( 'button' );
+					btn.setAttribute( 'id', el )
+					btn.innerHTML = name;
+	            btn.addEventListener('click', function() {
 	              music.plc(),
 	                fs.readFile(`data/${this.getAttribute( 'data' )}`, function(err, json) {
 	                  if (err) return f;
@@ -66,18 +65,13 @@ var music = {
 	  },
 	  tpl: function(track) {
 	    music.trlist.push(track);
-	    _('li')
-	      .append(
-	        _('button', {
-	          attr: {
-	            data: track
-	          },
-	          text: track.slice(track.lastIndexOf('/') + 1)
-	        })
-	        .event('click', function() {
-	          audio.mutted(this, this.getAttribute('data'))
-	        })
-	      )
-	      .appendTo(document.querySelector('.playlist').querySelector('ul'));
+
+		var btn = document.createElement( 'button' );
+			btn.setAttribute( 'data', track );
+			btn.innerHTML  = track.slice(track.lastIndexOf('/') + 1);
+			btn.addEventListener('click', function() {
+	          audio.set(this, this.getAttribute('data'))
+	        });
+			document.querySelector('.playlist .music').appendChild( btn )
 	  }
 	};

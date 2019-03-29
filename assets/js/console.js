@@ -11,7 +11,7 @@ var term = {
 	      (this.addpl(arg[1], arg[2])) :
 				arg[0] == 'delpl' ?
 				(this.delpl( arg[1] )) :
-	      arg[0] == 'adddir' ?
+	      arg[0] == 'addfolder' ?
 	      (this.diradd(arg[1])) :
 	      arg[0] == 'find' ?
 	      (this.find(arg[1])) :
@@ -42,7 +42,7 @@ var term = {
 	  diradd: function(dir) {
 	    fs.readFile('data/music-folders.json', 'utf-8', function(err, json) {
 	      if (err) return;
-	      var folders = JSON.parse(json);
+	      var folders = json != '' ? JSON.parse(json) : [];
 	      folders.push(dir);
 	      fs.writeFile('data/music-folders.json', JSON.stringify(folders), function(err) {
 	        if (!err) music.loaddir();

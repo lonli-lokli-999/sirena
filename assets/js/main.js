@@ -81,7 +81,6 @@
 		g = Math.round(0 - 0.5 + Math.random() * (260 - 0 + 1)),
 		b = Math.round(0 - 0.5 + Math.random() * (260 - 0 + 1));
 		document.body.style.setProperty( param , `rgba(${r},${g},${b},1)` );
-		console.log(`rgba(${r},${g},${b},1)`)
 	};
 
 
@@ -96,28 +95,28 @@
 	(function(u) {
 
 	  d.querySelector('#mutted')
-	    .addEventListener('dblclick', function() {
+	    .addEventListener('click', function() {
 	      audio.mutted()
 	    });
 
 	  d.querySelector('#next')
-	    .addEventListener('dblclick', function() {
+	    .addEventListener('click', function() {
 	      audio.next()
 	    });
 
 	  d.querySelector('#previous')
-	    .addEventListener('dblclick', function() {
+	    .addEventListener('click', function() {
 	      audio.previous()
 	    });
 
-	  d.querySelector('#vis')
-	    .addEventListener('dblclick', function() {
-	      vis = document.querySelector('.vis-wrapp');
-	      vis.style.height = vis.style.height != '10rem' ? '10rem' : 0;
+	  d.querySelector('#fs')
+	    .addEventListener('click', function() {
+	      vis = document.querySelector('.fs-wrapp');
+	      vis.style.height = vis.style.height != '20rem' ? '20rem' : 0;
 	    });
 
 	  d.querySelector('#volume')
-	    .addEventListener('dblclick', function() {
+	    .addEventListener('click', function() {
 	      audio.aud.volume = audio.aud.volume != 0 ? 0 : 1;
 	    });
 	    

@@ -162,22 +162,8 @@ width: 100%;
 	}
 }
 
-.vis-wrapp {
-background: var( --prm_bg );
+.fs-wrapp {
 height: 0;
 transition: $time_hover;
-display: flex;
-	@for $i from 0 through 14 {
-		#vis#{$i} {
-		background: $def_bg;
-		width: 7.14285714%;
-		animation: loading  random(1000) + ms infinite
-		}
-	}
-}
+display: flex }
 
-@keyframes loading {
-    0% {height:  100%}
-    50% {height:  0}
-    100% {height:  100%}
-}
