@@ -1,5 +1,17 @@
-@import 'var-conf.scss';
+//================ constants
+//===========================================
+$def_bg: rgba( 100, 100, 100, .8 );
+    $def_cr: #ddd;
+$opt_bg: rgba( 50, 50, 50, .8 );
+$prm_bg: #fff;
+    $prm_cr: rgba( 200, 150, 150, .5 );
+$th: 300ms;
+//================ constants  end
+//===========================================
 
+
+//================ cstomise
+//===========================================
 * {
 margin: 0;
 padding: 0;
@@ -12,158 +24,119 @@ background: none;
 box-sizing: border-box;
 font-size: 16px }
 
-@font-face {
-	font-family: 'Metrize-Icons';
-	src:url('../fonts/Metrize-Icons.eot');
-	src:url('../fonts/Metrize-Icons.eot?#iefix') format('embedded-opentype'),
-		url('../fonts/Metrize-Icons.woff') format('woff'),
-		url('../fonts/Metrize-Icons.ttf') format('truetype'),
-		url('../fonts/Metrize-Icons.svg#Metrize-Icons') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-
 body {
+background: url(../img/main_bg.jpg)  center center / cover no-repeat;
 display: flex;
-justify-content: space-between;
-height: 100vh;
-max-height: 100vh }
-
-input::-webkit-input-placeholder {
-color: $def_color }
+flex-direction: column;
+justify-content: space-aound }
+//================ cstomise  end
+//===========================================
 
 
-    .scroll-show {
+//================ button
+//===========================================
+button, .btn{
+padding: 1rem;
+transition: $th	
+}
+button:hover, .btn:hover{
+background: $def_bg }
+//================ button  end
+//===========================================
+
+
+//================ scroll
+//===========================================
+    .b-scroll {
     overflow: hidden;
     position: relative;
     height: 100%;
-    width: 100% }
-            .scroll-all {
+		.scroll__content {
             position: absolute;
             top: 0rem;
-            width:100%;
-            transition: $time-hover }
-
-button, input {
-background: none;
-color: $def_color;
-transition: $time_hover }
-button:hover, input:hover {
-background: var( --prm_bg ) }
-input {
-display: block;
-padding: 1rem;
-width: 100% }
-
-.icon {
-font-family: 'Metrize-Icons';
-padding: 0 .3rem;
-font-size: 1.3rem;
-speak: none;
-font-weight: normal;
-font-variant: normal;
-text-transform: none;
-line-height: 1rem;
--webkit-font-smoothing: antialiased }
-
-.player {
-display: flex;
-flex-direction: column;
-background: $def_bg;
-color: $def_color;
-width: 30rem;
-	.status-bar {
-	background: $opt_bg;	
-		span {
-		display: block;
-		width: 0;
-		padding:  .5rem 0;
-		background: var( --prm_bg ) }
+            width:100% }
 	}
-	.options li {
-	display: inline-block }
-		.volume-wrap {
-		position: relative;
-			.volume-bar {
-			display: flex;
-			position: absolute;
-			top: 100%;
-			height: 0;
-			width: 100%;
-			background: $opt_bg;
-			transition: $time_hover;
-			z-index: 3;
-				span {
-				display: block; 
-				background: var( --prm_bg );
-				transition: $time_hover;
-				width: 100%;
-				height: 100%;
-				margin: auto 0 0
-				}
+//================ scroll  end
+//===========================================
+
+
+//================ header
+//===========================================
+	.controll-bar {
+	background: $opt_bg;
+		button {
+		color: $def_cr }
+	}
+		.status-bar {
+		width: 100%;
+			span {
+			display: block;
+			padding: 1rem 0;
+			background: $def_bg;
+			width: 0;
 			}
 		}
-		.volume-wrap:hover	.volume-bar {
-		height: 10rem }	
-	button {
-	padding: 1rem;
-	width: 100% }
-}
+//================ header end
+//===========================================		
 
-.extra-options {
-	button {
-	text-align: left }
-	.icon {
-	padding: 0 .3rem 0 0;
-	}
 
-	.music-list li,
-	.music-folder li,
-	.settings-list li {
-	position: relative }
-	.music-list li:hover ul,
-	.music-folder li:hover ul,
-	.settings-list li:hover ul {
-	height: 10rem }
-	.music-list li ul,
-	.music-folder li ul,
-	.settings-list li ul  {
-	background: $opt_bg;
-	transition: $time_hover;
-	position: absolute;
-	top: 0;
-	right: 0;
-	margin-right: -100%;
-	width: 100%;
-	height: 0;
-	z-index: 3 }
-}
+//================ main
+//===========================================
+	.music-wrap {
+	display: flex;
+	background: $def_bg;
+	height: calc(100vh - 5rem) }
+	
+		.options-list {
+			button {
+			display: block;
+			color: $def_cr	}
+		}
+		
+		[class^="options__"] {
+		display: none }
+		.options--active {
+		display: block }
+	
+		.music-wrap .b-scroll:nth-child(2) {
+		background: $def_bg;
+		width: 30% }
+		
+		.music-wrap .b-scroll:nth-child(3) {
+		width: 70%}
 
-    .inp-wrap {
-    margin: auto 0 0;
-    background: $opt_bg;
-    display: flex;
-	    button{
-	    width: auto	}
-}
-    
-.playlist {
+		
+		
+		.music, [class^="options__"] {
+			button {
+			width: 100%;
+			padding: 1rem;
+			color: $prm_cr;
+			text-align: left }
+		}
+//================ main end
+//===========================================
+
+//================ contextmenu end
+//===========================================
+.contextmenu {
+position: fixed;
+top:0;
+left: 0;
 background: $def_bg;
-transition: $time_hover;
-height: 100%;
-width: 100%;
-    button {
-    width: 100%;
-    padding: 1rem;
-    overflow-wrap: break-word;
-    text-align: left }
-    .active {
-	background: var( --prm_bg );	
+color: $def_cr;
+box-shadow: 0 0 .5rem $opt_bg;
+	p {
+	padding: 1rem }
+	button {
+	display: block;
+	width: 100%;
+	text-align: left;
+	color: $def_cr;
+	padding: .5rem 1rem }
+	button:hover {
+	background: $opt_bg
 	}
 }
-
-.fs-wrapp {
-height: 0;
-transition: $time_hover;
-display: flex }
-
+//================ contextmenu end
+//===========================================

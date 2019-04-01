@@ -1,89 +1,56 @@
-<!DOCTYPE html>
 <html>
-<head>
-	<title>Sirena</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet"  href="assets/css/style.css">
-</head>
-<body>
+	<head>
+		<title>Sirena</title>
+		<meta charset=UTF-8>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel=stylesheet href=assets/css/style.css>
+		<link rel=stylesheet href=assets/css/themify-icons.css>
+	</head>
+	<body>
+		
+		<nav class=controll-bar-wrap>
+			<div class=controll-bar>
+				<button id=previous><span class=ti-angle-double-left></span></button>
+				<button id=muted><span class=ti-control-play></span></button>
+				<button id=succeeding><span class=ti-angle-double-right></span></button>
+				<button id=volume><span class=ti-volume></span></button>
+				<button id=search><span class=ti-search></span></button>
+				<div class=status-bar>
+					<span></span>
+				</div>
+			</div>
+		</nav>
+		
+		<div class=music-wrap>
+			<div class=options-list>
+				<button id=settings><span class=ti-settings></span></button>
+				<button id=file-wiev><span class=ti-folder ></span></button>
+				<button id=bookmarks><span class=ti-medall></span></button>
+				<button id=playlists><span class=ti-music-alt></span></button>
+			</div>
+			<div class=b-scroll>
+				<div class=scroll__content>
+					<div class=options>
+						<div class=options__settings><button>Settings</button></div>
+						<div class="options__file-wiev options--active"></div>
+						<div class=options__bookmarks><button>Bokmarks</button></div>
+						<div class=options__playlists><button><span></span></button></div>
+					</div>
+				</div>
+			</div>
+			<div class=b-scroll>
+				<div class=scroll__content>
+					<div class=music>
+					</div>
+				</div>
+			</div>
+		</div>
 
-	<div class="player">
-            <div class="fs-wrapp">
-
-            </div>
-
-            <div class="controll-bar">
-                    <ul class="options">
-                            <li><button id="mutted" class="icon">&#xe107;</button></li>
-                            <li><button id="previous" class="icon">&#xe066;</button></li>
-                            <li><button id="next" class="icon">&#xe081;</button></li>
-                            <li class="volume-wrap">
-                                            <button id="volume" class="icon">&#xe028;</button>
-                                            <div class="volume-bar"><span></span></div>
-                            </li>
-                            <li><button id="fs" class="icon">&#xe0b1;</button></li>
-                            <li><button id="color" class="icon">&#xe0ee;</button></li>
-                    </ul>
-            </div>
-
-			<div class="status-bar">
-                    <span></span>
-            </div>
-            
-            <div class="extra-options">
-                <ul class="music-list">
-                    <li>
-                        <button><span class="icon">&#xe093;</span>Playlist</button>
-                        <ul>
-                            <div class="scroll-show">
-                                <div class="scroll-all" id="js-music-playlist">
-                                </div>
-                            </div>
-                        </ul>
-                    </li>
-                </ul>
-                <ul class="music-folder">
-                    <li>
-                        <button><span class="icon">&#xe06c;</span>Folder</button>
-                        <ul>
-                            <div class="scroll-show">
-                                <div class="scroll-all" id="js-music-folders">
-                                </div>
-                            </div>
-                        </ul>
-                    </li>
-                </ul>
-                <ul class="settings-list">
-                    <li>
-                        <button><span class="icon">&#xe057;</span>Settings</button>
-                        <ul>
-                            <div class="scroll-show">
-                                <div class="scroll-all">
-                                </div>
-                            </div>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <div class="inp-wrap">
-                <input class="comand-line" placeholder="Input comand">
-                <button class="icon">&#xe06b;</button>
-            </div>
-	</div>
-
-        <div class="playlist">
-            <div class="scroll-show">
-                <div class="scroll-all">
-                    <ul class="music">
-                    </ul>
-                </div>
-            </div>
-        </div>
-	
-	<script src="assets/js/console.js"></script>
-	<script src="assets/js/music.js"></script>
-	<script src="assets/js/audio.js"></script>
-	<script src="assets/js/main.js"></script>
-</body>
+		
+		<script src=assets/js/libres.js></script>
+		<script src=assets/js/audio_module.js></script>
+		<script src=assets/js/music_module.js></script>
+		<script src=assets/js/fs_plugin.js></script>
+		<script src=assets/js/main.js></script>
+	</body>
 </html>
