@@ -38,7 +38,7 @@
 									key = this.getAttribute('id');
 									
 									key == 'open' ?
-										( music.pcl( '.music', files.sort(files.open( folder )).music ) ) :
+										( music.plshow( '.music', files.sort(files.open( folder )).music ) ) :
 									false;
 							} )
 						} )

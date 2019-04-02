@@ -13,7 +13,7 @@
 				el.addEventListener( 'click', function(){
 					var btnid = this.getAttribute( 'id' );
 					d.querySelector( '.options--active' ).classList.remove( 'options--active' );
-					d.querySelector( `.options__${btnid}` ).classList.add( 'options--active' )
+					d.querySelector( `.options__${btnid}` ).classList.add( 'options--active' );
 				} );
 			} );
 			
@@ -37,7 +37,16 @@
 			
 			
 			
-			files.show( '.options__file-wiev' ,files.sort(files.open( '/home/reader' )).folders )
+			files.show( '.options__file-wiev' ,files.sort(files.open( '/home/reader' )).folders );
+			
+			var boxBookmarks = d.querySelector( '.options__bookmarks' );
+			boxBookmarks.innerHTML = bookmarks.read().map(el => `<button data="${el}">${el}</button>`);
+			
+			boxBookmarks.querySelectorAll( 'button' ).forEach( function(el){
+				el.addEventListener( 'click', function(){	
+					music.plshow( '.music' , files.sort( files.open( this.getAttribute( 'data' ) ) ).music )
+				} )
+			} );
 			
 	}(window, document, document.head, document.body));
 
