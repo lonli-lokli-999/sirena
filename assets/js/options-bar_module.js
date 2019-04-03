@@ -23,7 +23,7 @@
 
 		playlist = {
 		create: function(name){
-			fs.writeFileSync( `./data/pl-${name.replace( / /g, '_' )}`, '[]' )
+			fs.writeFileSync( `./data/pl-${name.replace( / /g, '_' )}.json`, '[]' )
 		},
 		del: function( file ){
 			fs.unlinkSync(file)

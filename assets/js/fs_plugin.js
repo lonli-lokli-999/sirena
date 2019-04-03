@@ -39,6 +39,10 @@
 									
 									key == 'open' ?
 										( music.plshow( '.music', files.sort(files.open( folder )).music ) ) :
+									key == 'addtobookmarks' ? 
+										( bookmarks.add( folder ) ) :
+									key == 'playlistcreate' ?
+										( playlist.create( 'new' ) ) :
 									false;
 							} )
 						} )
