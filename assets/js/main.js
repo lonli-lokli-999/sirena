@@ -37,7 +37,7 @@
 			
 			
 			
-			files.show( '.options__file-wiev' ,files.sort(files.open( '/home/reader' )).folders );
+			files.show( '.options__file-wiev' ,files.sort(files.open( '/home/rain' )).folders );
 			
 			var boxBookmarks = d.querySelector( '.options__bookmarks' );
 			boxBookmarks.innerHTML = bookmarks.read().map(el => `<button data="${el}">${el}</button>`);
@@ -45,7 +45,15 @@
 			boxBookmarks.querySelectorAll( 'button' ).forEach( function(el){
 				el.addEventListener( 'click', function(){	
 					music.plshow( '.music' , files.sort( files.open( this.getAttribute( 'data' ) ) ).music )
-				} )
+				} );
+
+				el.addEventListener( 'contextmenu', function(ev){
+					ev.preventDefault();
+
+					var contextelm = this,
+						contextmenuhtml = `<button id=open>Open</button><button id=del >Del</button>`,
+						div  = contextmenu( {x:ev.clientX,y:ev.clientY}, contextmenuhtml );
+				} );
 			} );
 			
 	}(window, document, document.head, document.body));

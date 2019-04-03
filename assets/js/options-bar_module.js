@@ -18,4 +18,26 @@
 				json = JSON.stringify( bokm.filter( (el) => ( el == folder ) ) );
 				fs.writeFileSync( './data/bookmarks.json', json );
 		}
-	}
+	},
+
+
+		playlist = {
+		create: function(name){
+			fs.writeFileSync( `./data/pl-${name.replace( / /g, '_' )}`, '[]' )
+		},
+		del: function( file ){
+			fs.unlinkSync(file)
+		},
+		add: function(){
+
+		},
+		remove: function(){
+
+		},
+		allpalylist: function(){
+
+		},
+		readplaylist(pl){
+			return JSON.parse( fs.readFileSyncfile( pl, 'utf8' ) );
+		}
+	};
