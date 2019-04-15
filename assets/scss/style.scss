@@ -1,3 +1,5 @@
+@import '../css/themify-icons.css';
+
 //================ constants
 //===========================================
 $def_bg: rgba( 100, 100, 100, .8 );
@@ -64,8 +66,11 @@ background: $def_bg }
 //===========================================
 	.controll-bar {
 	background: $opt_bg;
-		button {
+		button, input {
 		color: $def_cr }
+		input {
+		padding: 0 1rem	
+		}
 	}
 		.status-bar {
 		width: 100%;

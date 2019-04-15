@@ -33,6 +33,10 @@
 			a = this.audio,
 			nowstatus = ( a.currentTime / a.duration ) * 100;
 			box.style.width = `${nowstatus}%`;
+		},
+		find: function(){
+			var val = document.getElementById( 'inp-search' ).value;
+			alert( val );
 		}
 	};
 	
