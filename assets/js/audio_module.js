@@ -4,7 +4,7 @@
 
 	'use strict';
 	
-	var audioControll = {
+	var player = {
 		audio: new Audio(),
 		muted: function() {
 			if( this.audio.paused ) 
@@ -12,13 +12,15 @@
 				else
 				{ this.audio.pause() };
 		},
-		succeeding: function() {
+		get next() {
+			return this.btntreack.nextSibling
 		},
-		previous: function(){
-			
+		get previous(){
+			return this.btntreack.previousSibling
 		},
-		set: function( treack ) {
-			this.audio.src = treack;
+		set: function( btntreack ) {
+			this.btntreack = btntreack;
+			this.audio.src = btntreack.getAttribute( 'data' );
 			this.audio.play()
 		},
 		setingtime: function(ratetime) {
@@ -41,27 +43,27 @@
 	};
 	
 	
-	(function(){
-		audioControll.audio.addEventListener('timeupdate', function() {
-			audioControll.watch( document.querySelector( '.status-bar span' ) )
+	(function(){ // audio elements event
+		player.audio.addEventListener('timeupdate', function() {
+			player.watch( document.querySelector( '.status-bar span' ) )
 		});
 
-		audioControll.audio.addEventListener('ended', function() {
-			audioControll.succeeding()
+		player.audio.addEventListener('ended', function() {
+			player.set( player.next )
 		});
 		
 		document.querySelector('#volume').addEventListener('wheel', function(ev) {
 			ev.preventDefault();
 			var step = ev.deltaY * 0.001,
-				volume = audioControll.audio.volume,
+				volume = player.audio.volume,
 				newvolume = volume - step;
-				audioControll.audio.volume = newvolume >= 1 ? 1 : newvolume <= 0 ? 0 : newvolume;
+				player.audio.volume = newvolume >= 1 ? 1 : newvolume <= 0 ? 0 : newvolume;
 		});
 		
 		document.querySelector('.status-bar').addEventListener('click', function(ev) {
 			var
 			x = ev.layerX,
 			w = parseInt(getComputedStyle(this).width);
-			audioControll.setingtime( (x/w)*100 )
+			player.setingtime( (x/w)*100 )
 		});
-	}(1));
+	}(null));

@@ -1,0 +1,17 @@
+:root {
+--time-hover: 500ms;
+
+--header-bg: rgba( 50, 50, 50, 1 );
+--button-hover-bg: rgba( 100, 100, 100, .6 );
+--header-btn-color: #ddd;
+--status-bar-color:rgba( 100, 100, 100, .6 );
+
+--options-list-bg: rgba( 50, 50, 50, 1 );
+--options-list-btn-color: #ddd;
+
+--music-color: rgba( 250, 250, 250, .5 );
+
+--context-bg: rgba( 100, 100, 100, 1 );
+--context-show: #333;
+--context-color: #999;
+}

@@ -1,16 +1,4 @@
-@import '../css/themify-icons.css';
-
-//================ constants
-//===========================================
-$def_bg: rgba( 100, 100, 100, .8 );
-    $def_cr: #ddd;
-$opt_bg: rgba( 50, 50, 50, .8 );
-$prm_bg: #fff;
-    $prm_cr: rgba( 200, 150, 150, .5 );
-$th: 300ms;
-//================ constants  end
-//===========================================
-
+@import '../css/themify-icons';
 
 //================ cstomise
 //===========================================
@@ -27,7 +15,6 @@ box-sizing: border-box;
 font-size: 16px }
 
 body {
-background: url(../img/main_bg.jpg)  center center / cover no-repeat;
 display: flex;
 flex-direction: column;
 justify-content: space-aound }
@@ -39,10 +26,10 @@ justify-content: space-aound }
 //===========================================
 button, .btn{
 padding: 1rem;
-transition: $th	
+transition: var(--time-hover)	
 }
 button:hover, .btn:hover{
-background: $def_bg }
+background: var(--button-hover-bg) }
 //================ button  end
 //===========================================
 
@@ -65,9 +52,9 @@ background: $def_bg }
 //================ header
 //===========================================
 	.controll-bar {
-	background: $opt_bg;
+		background: var(--header-bg);
 		button, input {
-		color: $def_cr }
+		color: var(--header-btn-color) }
 		input {
 		padding: 0 1rem	
 		}
@@ -77,7 +64,7 @@ background: $def_bg }
 			span {
 			display: block;
 			padding: 1rem 0;
-			background: $def_bg;
+			background: var(--status-bar-color);
 			width: 0;
 			}
 		}
@@ -89,13 +76,13 @@ background: $def_bg }
 //===========================================
 	.music-wrap {
 	display: flex;
-	background: $def_bg;
 	height: calc(100vh - 5rem) }
 	
 		.options-list {
+		background: var(--options-list-bg);
 			button {
 			display: block;
-			color: $def_cr	}
+			color: var(--options-list-btn-color) }
 		}
 		
 		[class^="options__"] {
@@ -104,7 +91,6 @@ background: $def_bg }
 		display: block }
 	
 		.music-wrap .b-scroll:nth-child(2) {
-		background: $def_bg;
 		width: 30% }
 		
 		.music-wrap .b-scroll:nth-child(3) {
@@ -116,10 +102,19 @@ background: $def_bg }
 			button {
 			width: 100%;
 			padding: 1rem;
-			color: $prm_cr;
+			color: var(--music-color);
 			text-align: left }
 		}
 //================ main end
+//===========================================
+
+//================ tabs
+//===========================================
+	.tab {
+	display: none }
+	.tab--active {
+	display: block }
+//================ tabs end
 //===========================================
 
 //================ contextmenu end
@@ -128,19 +123,19 @@ background: $def_bg }
 position: fixed;
 top:0;
 left: 0;
-background: $def_bg;
-color: $def_cr;
-box-shadow: 0 0 .5rem $opt_bg;
+background: var(--context-bg);
+color: var(--context-color);
+box-shadow: 0 0 .5rem var(--context-show);
 	p {
 	padding: 1rem }
 	button {
 	display: block;
 	width: 100%;
 	text-align: left;
-	color: $def_cr;
+	color: var(--context-color);
 	padding: .5rem 1rem }
 	button:hover {
-	background: $opt_bg
+	background: var(--context-show)
 	}
 }
 //================ contextmenu end
